@@ -25,14 +25,14 @@
         <div class="Exclusive-Product">
             <h3>{{job.title}}</h3>
             {% if job.profile == user.profile %}
-              <a href="{% url 'jobs:job_delete' job.slug %}" class="Apply-Now">Delete</a>
-            <a href="{% url 'jobs:job_update' job.slug %}" class="Apply-Now">Edit</a>
+              <a href="{% url 'jobs:delete' job.slug %}" class="Apply-Now">Delete</a>
+            <a href="{% url 'jobs:update' job.slug %}" class="Apply-Now">Edit</a>
             {% else %}
                 <a href="#" class="Apply-Now">Apply Now</a>
             {% endif %}
             
             <h6 class="font-color-orange">{{job.company}}</h6>
-            <a href="{% url 'profiles:profile_detail' job.profile.slug %}" 
+            <a href="{% url 'profiles:detail' job.profile.slug %}" 
             style="text-decoration: none; color: black;font-size: 20px;">
             created by <span style="font-size: 25px; color: darkcyan; ">{{job.profile}}</span>
         </a>

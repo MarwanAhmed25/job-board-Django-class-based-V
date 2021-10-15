@@ -8,7 +8,7 @@
 
 <div id="search-box">
     <div class="container search-box">
-        <form action="#" id="search-box_search_form_3"
+        <form action="search" method="GET" id="search-box_search_form_3"
             class="search-box_search_form d-flex flex-lg-row flex-column align-items-center justify-content-between ">
             <div class="d-flex flex-row align-items-center justify-content-start inline-block">
                 <span class="large material-icons search">search</span>
@@ -30,79 +30,65 @@
 <section id="resent-job-post" class="background-color-white">
     <div class="vertical-space-85"></div>
     <div class="container text-center">
-        <h3 class="text-center">Recent Job Post</h3>
+        <h3 class="text-center">Profiles</h3>
         <div class="vertical-space-30"></div>
         <p class="max-width">Lorem ipsum tempus amet conubia adipiscing fermentum viverra gravida, mollis suspendisse
             pretium dictumst inceptos mattis euismod
         </p>
         <div class="vertical-space-60"></div>
-        {% for job in page_obj %}
+        {% for profile in objects %}
         <div class="detail">
             <div class="media display-inline text-align-center">
-                {% if job.image %}
-                <img src="{{job.image.url}}" alt="John Doe" class="mr-3 " style="width: 120px; height: 120px;">
+                {% if profile.image%}
+                <img src="{{profile.image.url}}" alt="John Doe" class="mr-3 " style="width: 120px; height: 120px;">
                 {% else %}
-                <img src="{% static 'images/job.jpeg' %}" alt="John Doe" class="mr-3 "
+                <img src="{% static 'images/profile.jpeg' %}" alt="John Doe" class="mr-3 "
                     style="width: 120px; height: 120px;">
                 {% endif %}
 
-
                 <div class="media-body text-left  text-align-center">
-                    <a href="{% url 'jobs:job_detail' job.slug %}">
-                        <h6>{{job.title}}</h6>
+                    <a href="{% url 'profiles:detail' profile.slug %}">
+                        <h6>{{profile.user.username}}</h6>
                     </a>
-                    <i class="large material-icons">account_balance</i>
-                    <span class="text">{{job.country}}</span>
+                    <span>Code: </span>
+                    <span class="text">{{profile.code}}</span>
                     <br />
-                    <i class="large material-icons">place</i>
-                    <span class="text font-size">{{job.location}}</span>
+                    <span>Phone: </span>
+                    <span class="text font-size">{{profile.phone}}</span>
                     <div class="float-right margin-top text-align-center">
-                        <a href="#" class="part-full-time">{{job.job_type}}</a>
-                        <p class="date-time">Published at: {{job.pubished_at}}</p>
+                        <p class="date-time">Age: {{profile.age}}</p>
                     </div>
                 </div>
-
             </div>
-            <a href="{% url 'profiles:profile_detail' job.profile.slug %}"
-                style="text-decoration: none; font-size: 18px;">created by:<span
-                    style="font-size: 25px;margin-left: 5px;">{{job.profile}}</span></a>
-
         </div>
         {% endfor %}
 
 
 
 
+        
         <div class="vertical-space-20"></div>
-        <div class="job-list">
-
+        <div class="profile-list">
+        
             <div class="pagination">
                 <span class="step-links">
                     {% if page_obj.has_previous %}
                     <a href="?page=1">&laquo; first</a>
                     <a href="?page={{ page_obj.previous_page_number }}">previous</a>
                     {% endif %}
-
+        
                     <span class="current">
                         Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
                     </span>
-
+        
                     {% if page_obj.has_next %}
                     <a href="?page={{ page_obj.next_page_number }}">next</a>
                     <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
                     {% endif %}
                 </span>
             </div>
-
+        
         </div>
-
-
-
     </div>
-    <div class="vertical-space-60"></div>
 </section>
-
-
-
-
-{% endblock content %}
+                {% endblock content %}

@@ -1,72 +1,35 @@
-
-from django.core.paginator import Paginator
-from django.shortcuts import redirect, render
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from .models import *
-from .forms import *
-import os
-# Create your views here.
+from django.shortcuts import render
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
+from .forms import JobForm
+from .models import Job
 
 
-def jobs_all(req):
-    jobs = Job.objects.all()
-    paginator = Paginator(jobs, 1)
-    page_number = req.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    return render(req, 'jobs/jobs.html', {'page_obj': page_obj})
+class JobList(ListView):
+    model = Job
+    context_object_name = 'jobs'
 
 
-@login_required
-def job_create(req):
-    form = JobForm()
-    if req.method == 'POST':
-        form = JobForm(req.POST, req.FILES)
-        if form.is_valid():
-            user = form.save(commit=False)
-            user.profile = req.user.profile
-            user.save()
-            messages.success(req, 'created!')
-            return redirect('jobs:jobs_all')
-        else:
-            messages.error(req, 'faild')
-            form = JobForm()
-    return render(req, 'jobs/create.html', {'form': form})
+class JobDetail(DetailView):
+    model = Job
+    context_object_name = 'job'
 
 
-def job_detail(req, slug):
-    job = Job.objects.get(slug=slug)
-
-    return render(req, 'jobs/detail.html', {'job': job})
-
-
-@login_required
-def job_update(req, slug):
-    profile = req.user.profile
-    job = profile.job_set.get(slug=slug)
-    if job is not None:
-        form = JobForm(instance=job)
-
-        if req.method == 'POST':
-            form = JobForm(req.POST, req.FILES, instance=job)
-            if form.is_valid():
-                form.save()
-                messages.success(req, 'updated!')
-
-                return redirect('jobs:jobs_all')
-            else:
-                messages.error(req, 'faild!')
-                form = JobForm(instance=profile)
-    else:
-        messages.error(req, 'not exist')
-
-    return render(req, 'jobs/update.html', {'form': form})
+class JobCreate(CreateView):
+    model = Job
+    template_name = 'jobs/job_create.html'
+    form_class = JobForm
+    success_url = reverse_lazy('jobs:all')
 
 
-def job_delete(req, slug):
-    job = Job.objects.get(slug=slug)
-    if req.method == 'POST':
-        job.delete()
-        messages.success(req, 'deleted!')
-        return redirect('jobs:jobs_all')
-    return render(req, 'jobs/delete.html', {})
+class JobUpdate(UpdateView):
+    model = Job
+    template_name = 'jobs/job_update.html'
+    form_class = JobForm
+    success_url = reverse_lazy('jobs:detail')
+
+
+class JobDelete(DeleteView):
+    model = Job
+    template_name = 'jobs/job_delete.html'
+    success_url = reverse_lazy('jobs:all')

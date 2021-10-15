@@ -25,8 +25,8 @@
         <div class="Exclusive-Product">
             <h2 style="font-weight: bold;">{{profile.user.username}}</h2>
             {% if user.profile.slug == profile.slug %}
-              <a href="{% url 'profiles:profile_delete' profile.slug %}" class="Apply-Now">Delete</a>
-            <a href="{% url 'profiles:profile_update' profile.slug %}" class="Apply-Now">Edit</a>
+              <a href="{% url 'profiles:delete' profile.slug %}" class="Apply-Now">Delete</a>
+            <a href="{% url 'profiles:update' profile.slug %}" class="Apply-Now">Edit</a>
             {% endif %}
             
             <h4>Email:</h4>
@@ -66,7 +66,7 @@
                       
             
                       <div class="media-body text-left  text-align-center">
-                          <a href="{% url 'jobs:job_detail' job.slug %}"><h6>{{job.title}}</h6></a>
+                          <a href="{% url 'jobs:detail' job.slug %}"><h6>{{job.title}}</h6></a>
                           <i class="large material-icons">account_balance</i>
                           <span class="text">{{job.country}}</span>
                           <br />
@@ -102,7 +102,7 @@
                 </div>
             </div>
             <div class="media border p-3 ">
-                <img src="imags/comment2.png" alt="John Doe" class="mr-3 rounded-circle imagess" style="width:60px;">
+                <img src="{% static 'imags/comment2.png' %}" alt="John Doe" class="mr-3 rounded-circle imagess" style="width:60px;">
                 <div class="media-body">
                     <h6>Rehmatun Nisal</h6>
                     <p>Suspendisse augue pulvinar placerat himenaeos odio nec turpis augue sem maecenas, faucibus erat
@@ -110,7 +110,7 @@
                 </div>
             </div>
             <div class="media border p-3 padding-none border-none">
-                <img src="imags/comment3.png" alt="John Doe" class="mr-3 rounded-circle imagess" style="width:60px;">
+                <img src="{% static 'imags/comment3.png' %}" alt="John Doe" class="mr-3 rounded-circle imagess" style="width:60px;">
                 <div class="media-body">
                     <form>
                         <textarea placeholder="Type commeny" required></textarea>

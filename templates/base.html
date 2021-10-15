@@ -46,11 +46,11 @@
                             <nav class="main_nav_contaner ml-auto">
                                 <ul class="main_nav">
                                     <li >
-                                        <a href="{% url 'jobs:jobs_all' %}">Home</a>
+                                        <a href="{% url 'jobs:all' %}">Home</a>
                                     </li>
 
                                     
-                                    <li><a href="{% url 'profiles:profiles_all' %}"> Prpfiles</a></li>
+                                    <li><a href="{% url 'profiles:all' %}"> Prpfiles</a></li>
                                    
                                     {% if user.is_authenticated %}
                                     <li><a href="{% url 'accounts:logout' %}">logout</a></li>
@@ -60,7 +60,7 @@
                                     {% endif %}
                                 </ul>
                                 <div class=" Post-Jobs">
-                                    <a href="{% url 'jobs:job_create' %}" class="">
+                                    <a href="{% url 'jobs:create' %}" class="">
                                         Post Jobs
                                     </a>
                                 </div>
@@ -98,7 +98,7 @@
 
                     </li>
                     <li>
-                        <a href="{% url 'jobs:jobs_all' %}">Jobs</a>
+                        <a href="{% url 'jobs:all' %}">Jobs</a>
 
                     </li>
                     <li class="menu_mm"><a href="blog_page.html">Blog</a></li>

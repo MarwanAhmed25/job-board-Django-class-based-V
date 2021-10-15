@@ -3,10 +3,10 @@ from .views import *
 
 app_name='jobs'
 urlpatterns = [
-    path('', jobs_all, name='jobs_all'),
-    path('create/', job_create, name='job_create'),
-    path('<str:slug>/edit/', job_update, name='job_update'),
-    path('<str:slug>/delete/', job_delete, name='job_delete'),
-    path('<str:slug>/', job_detail, name='job_detail'),
+    path('', JobList.as_view(), name='all'),
+    path('create/', JobCreate.as_view(), name='create'),
+    path('<str:slug>/edit/', JobUpdate.as_view(), name='update'),
+    path('<str:slug>/delete/', JobDelete.as_view(), name='delete'),
+    path('<str:slug>/', JobDetail.as_view(), name='detail'),
     
 ]
