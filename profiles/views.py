@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
-from .forms import ProfileForm
+from .forms import ProfileForm, UserForm
 from .models import Profile
+from datetime import date
 
 
 class ProfileList(ListView):
@@ -20,7 +21,12 @@ class ProfileDetail(DetailView):
 class ProfileUpdate(UpdateView):
     model = Profile
     form_class = ProfileForm
+    
 
+    
+
+
+    
 
     success_url = reverse_lazy('profiles:all')
 

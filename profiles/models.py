@@ -3,7 +3,6 @@ from django.db import models
 from django.db.models.signals import post_delete, post_save
 from django.contrib.auth.models import User
 from datetime import date
-import random
 from django.utils.text import slugify
 
 
@@ -14,7 +13,7 @@ class Profile(models.Model):
     phone = models.CharField(max_length=11, null=True, blank=True)
     birthdate = models.DateField(
         auto_now=False, auto_now_add=False, null=True, blank=True)
-    age = models.IntegerField(null=True, blank=True)
+    age = models.CharField(max_length=10, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     slug = models.SlugField(null=True, blank=True)
 
@@ -25,7 +24,8 @@ class Profile(models.Model):
        
         if not self.slug:
             self.slug = slugify(self.user.username)
-        
+        if self.age is None:
+            self.age = date.today().year - self.birthdate.year
         super(Profile, self).save(*args, **kwargs)
 
 
