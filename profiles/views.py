@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
@@ -15,19 +16,12 @@ class ProfileList(ListView):
 
 class ProfileDetail(DetailView):
     model = Profile
-    
 
 
 class ProfileUpdate(UpdateView):
     model = Profile
     form_class = ProfileForm
-    
-
-    
-
-
-    
-
+ 
     success_url = reverse_lazy('profiles:all')
 
 

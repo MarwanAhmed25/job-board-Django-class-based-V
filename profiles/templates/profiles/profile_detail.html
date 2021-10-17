@@ -53,7 +53,7 @@
             <br>
             <h4>My Jobs</h4>
             <div>
-                {% for job in jobs %}
+                {% for job in profile.job_set.all %}
                 <div class="detail" style="margin: 15px;">
                   <div class="media display-inline text-align-center">
                       {% if job.image %}
@@ -94,7 +94,7 @@
             <h4>comment</h4>
             <a href="#" class="Share">Share</a>
             <div class="media border p-3">
-                <img src="imags/comment1.png" alt="John Doe" class="mr-3 rounded-circle imagess" style="width:60px;">
+                <img src="{% static 'imags/comment1.png' %}" alt="John Doe" class="mr-3 rounded-circle imagess" style="width:60px;">
                 <div class="media-body">
                     <h6>Rehmatun Nisal</h6>
                     <p>Suspendisse augue pulvinar placerat himenaeos odio nec turpis augue sem maecenas, faucibus erat

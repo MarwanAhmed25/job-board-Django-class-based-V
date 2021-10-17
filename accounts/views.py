@@ -1,44 +1,48 @@
-from django.contrib.auth.models import User
-from django.http.response import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
-from django.urls.base import reverse_lazy
-from django.views import View
-from django.views.generic import CreateView
-from django.conf import settings
+from django.contrib import messages
+from .forms import LoginForm
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth import login as auth_login, logout as auth_logout, authenticate
 from .forms import *
 
 
-class LoginView(View):
-    template_name = 'accounts/login.html'
-    def post(self, request):
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(username=username, password=password)
-
-        if user is not None:
-            if user.is_active:
-                login(request, user)
-
-                return HttpResponseRedirect('/form')
+def login(req):
+    form = LoginForm()
+    if req.method == 'POST':
+        form = LoginForm(req.POST)
+        if form.is_valid():
+            user = authenticate(
+                username=form.cleaned_data['username'],
+                password=form.cleaned_data['password'],
+            )
+            if user is not None:
+                auth_login(req, user)
+                messages.success(req, 'welcome, loged in')
+                return redirect('jobs:all')
             else:
-                return HttpResponse("Inactive user.")
+                messages.success(req, 'Failed to login')
+                form = LoginForm()
+    return render(req, 'registration/login.html', context={'form': form})
+
+
+def logout(req):
+    auth_logout(req)
+    messages.success(req, 'loged out!')
+    return redirect('jobs:all')
+
+
+def signup(req):
+    form = UserCreationForm()
+    if req.method == 'POST':
+        form = UserCreationForm(req.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.save()
+            auth_login(req, user)
+            messages.success(req, 'created')
+            return redirect('profiles:profile_update', slug=req.user.profile.slug)
         else:
-            return HttpResponseRedirect(settings.LOGIN_URL)
+            messages.success(req, 'Failed to login')
 
+    return render(req, 'registration/signup.html', {'form': form})
 
-
-class LogoutView(View):
-    template_name = 'accounts/logout.html'
-    def get(self, request):
-        logout(request)
-        return HttpResponseRedirect(settings.LOGIN_URL)
-
-
-
-class UserCreate(CreateView):
-    model = User
-    template_name = 'accounts/signup.html'
-    form_class = UserCreationForm()
-    success_url = reverse_lazy('profiles:all')

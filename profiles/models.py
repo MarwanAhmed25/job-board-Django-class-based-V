@@ -24,7 +24,7 @@ class Profile(models.Model):
        
         if not self.slug:
             self.slug = slugify(self.user.username)
-        if self.age is None:
+        if self.age is None and self.birthdate is not None:
             self.age = date.today().year - self.birthdate.year
         super(Profile, self).save(*args, **kwargs)
 

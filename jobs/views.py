@@ -3,7 +3,8 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 from .forms import JobForm
 from .models import Job
-
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 
 class JobList(ListView):
     model = Job
@@ -16,6 +17,7 @@ class JobDetail(DetailView):
     context_object_name = 'job'
 
 
+@method_decorator(login_required, name='dispatch')
 class JobCreate(CreateView):
     model = Job
     template_name = 'jobs/job_create.html'
@@ -34,6 +36,7 @@ class JobUpdate(UpdateView):
     template_name = 'jobs/job_update.html'
     form_class = JobForm
     success_url = reverse_lazy('jobs:all')
+
 
 
 class JobDelete(DeleteView):
