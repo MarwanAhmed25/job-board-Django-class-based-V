@@ -7,21 +7,25 @@ from .models import Profile
 
 class ProfileList(ListView):
     model = Profile
+    paginate_by = 5
+
     context_object_name = 'objects'
 
 
 class ProfileDetail(DetailView):
     model = Profile
-    context_object_name = 'object'
-
+    
 
 
 class ProfileUpdate(UpdateView):
     model = Profile
     form_class = ProfileForm
-    success_url = reverse_lazy('profiles:detail')
+
+
+    success_url = reverse_lazy('profiles:all')
 
 
 class ProfileDelete(DeleteView):
     model = Profile
+    template_name = 'profiles/profile_delete.html'
     success_url = reverse_lazy('profiles:all')

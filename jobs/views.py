@@ -7,6 +7,7 @@ from .models import Job
 
 class JobList(ListView):
     model = Job
+    paginate_by = 5
     context_object_name = 'jobs'
 
 
@@ -19,6 +20,12 @@ class JobCreate(CreateView):
     model = Job
     template_name = 'jobs/job_create.html'
     form_class = JobForm
+
+    def form_valid(self, JobForm):
+        job = JobForm.save(commit=False)
+        job.profile = self.request.user.profile
+        return super(JobCreate, self).form_valid(JobForm)
+
     success_url = reverse_lazy('jobs:all')
 
 
@@ -26,7 +33,7 @@ class JobUpdate(UpdateView):
     model = Job
     template_name = 'jobs/job_update.html'
     form_class = JobForm
-    success_url = reverse_lazy('jobs:detail')
+    success_url = reverse_lazy('jobs:all')
 
 
 class JobDelete(DeleteView):

@@ -11,6 +11,7 @@ from .forms import *
 
 
 class LoginView(View):
+    template_name = 'accounts/login.html'
     def post(self, request):
         username = request.POST['username']
         password = request.POST['password']
@@ -26,10 +27,10 @@ class LoginView(View):
         else:
             return HttpResponseRedirect(settings.LOGIN_URL)
 
-        return render(request, "index.html")
 
 
 class LogoutView(View):
+    template_name = 'accounts/logout.html'
     def get(self, request):
         logout(request)
         return HttpResponseRedirect(settings.LOGIN_URL)
@@ -38,5 +39,6 @@ class LogoutView(View):
 
 class UserCreate(CreateView):
     model = User
+    template_name = 'accounts/signup.html'
     form_class = UserCreationForm()
     success_url = reverse_lazy('profiles:all')

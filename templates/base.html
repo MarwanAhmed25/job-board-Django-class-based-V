@@ -53,6 +53,7 @@
                                     <li><a href="{% url 'profiles:all' %}"> Prpfiles</a></li>
                                    
                                     {% if user.is_authenticated %}
+                                    <li>My Account:<a href="{% url 'profiles:detail' user.profile.slug %}"> {{user.username}}</a></li>
                                     <li><a href="{% url 'accounts:logout' %}">logout</a></li>
                                     {% else %}
                                     <li><a href="{% url 'accounts:login' %}">login</a></li>
@@ -185,7 +186,7 @@
                     <div class="modal-body">
                         <button class="button button-rounded  close" data-dismiss="modal">&times;</button>
                         <video class="" controls>
-                            <source src="video/Pexels_Videos_2706.mp4" type="video/mp4">
+                            <source src="{% static 'video/Pexels_Videos_2706.mp4' %}" type="video/mp4">
                         </video>
                     </div>
                 </div>
