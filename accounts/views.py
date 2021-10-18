@@ -40,7 +40,7 @@ def signup(req):
             user.save()
             auth_login(req, user)
             messages.success(req, 'created')
-            return redirect('profiles:profile_update', slug=req.user.profile.slug)
+            return redirect('profiles:update', slug=req.user.profile.slug)
         else:
             messages.success(req, 'Failed to login')
 
